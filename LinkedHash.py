@@ -7,7 +7,8 @@ class LinkedHash(object):
 		self.table_size = table_size
 		self.table = [None] * self.table_size
 		for key in range(self.table_size):
-			self.table[key] = [] #dovrei creare un dizionario vuoto
+			self.table[key] = [] # create an empty dictionary
+
 	
 	def hash_function(self, value):
 		#Division method
@@ -16,9 +17,9 @@ class LinkedHash(object):
 
 	def linked_insert(self, value):
 		key = self.hash_function(value)
-		if self.table[key] != []:
+		if self.table[key] != []: # if not empty notify the collision
 			self.notify()
-		self.table[key].insert(0, value)
+		self.table[key].insert(0, value) # head insert in list
 
 	def linked_search(self, value):
 		key = self.hash_function(value)
@@ -34,7 +35,7 @@ class LinkedHash(object):
 	def empty_table(self):
 		self.table = [None] * self.table_size
 		for key in range(self.table_size):
-			self.table[key] = [] #dovrei creare un dizionario vuoto
+			self.table[key] = [] # create an empty dictionary
 
 	def print_table(self):
 		for key in range(self.table_size):

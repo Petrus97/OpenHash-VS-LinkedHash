@@ -5,10 +5,10 @@ class OpenHash(object):
 	def __init__(self, table_size):
 		self._observers = []
 		self.table_size = table_size
-		self.table = [None] * self.table_size
+		self.table = [None] * self.table_size # create empty table
 
 	def hash_function(self, value):
-		#Division method
+		# Division method
 		key = value % self.table_size
 		return key
 
@@ -16,11 +16,11 @@ class OpenHash(object):
 		i = 0
 		j = self.linear_probing_hash(value, i)
 		while i != self.table_size :
-			if self.table[j] == None or self.table[j] == "DEL" :
+			if self.table[j] == None or self.table[j] == "DEL" : # if empty or deleted can insert
 				self.table[j] = value
 				return j
 			#new part
-			elif self.table[j] != None or self.table[j] != "DEL":
+			elif self.table[j] != None or self.table[j] != "DEL": # if it is not empty or deleted notify collision
 				self.notify()
 			i = i + 1
 			j = self.linear_probing_hash(value, i)
@@ -56,7 +56,8 @@ class OpenHash(object):
 	def print_table(self):
 		for key in range(self.table_size):
 			print(key, self.table[key])
-	#Observer methods
+
+	# Observer methods
 	def attach(self, observer: CollisionCounter):
 		self._observers.append(observer)
 
