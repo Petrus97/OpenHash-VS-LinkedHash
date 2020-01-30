@@ -14,6 +14,6 @@ class CollisionCounter(object):
 		self._collision = 0
 
 	def printNumberCollision(self):
-		print("Number of collison detected by ",self.name," are: ", self._collision)
+		print("Number of collison detected by ", self.name," are: ", self._collision)
 
 

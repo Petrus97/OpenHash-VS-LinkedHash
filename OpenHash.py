@@ -19,7 +19,6 @@ class OpenHash(object):
 			if self.table[j] == None or self.table[j] == "DEL" : # if empty or deleted can insert
 				self.table[j] = value
 				return j
-			#new part
 			elif self.table[j] != None or self.table[j] != "DEL": # if it is not empty or deleted notify collision
 				self.notify()
 			i = i + 1
