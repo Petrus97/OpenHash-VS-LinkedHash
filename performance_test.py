@@ -10,7 +10,7 @@ import pickle
 
 
 def insert_test(m):
-	print("Hash table with m = " + str(m))
+	print("Tabella hash di dimensione m = " + str(m))
 	# Init hash tabels
 	hash = OpenHash.OpenHash(m)
 	l_hash = LinkedHash.LinkedHash(m)
@@ -19,12 +19,14 @@ def insert_test(m):
 	# Attach to observe CollisionCounter
 	hash.attach(collision_counter)
 	l_hash.attach(l_collision_counter)
-	df = pd.DataFrame(columns = ['α','OpenHash', 'HashCollision', 'LinkedHash', 'L_HashCollision'])
+	df = pd.DataFrame(columns = ['α','Indirizzamento aperto', 'N° Collisioni IA', 'Concatenamento', 'N° Collisioni C'])
 	charge_factor = []
 	alpha = 0.1
 	while alpha <= 1:
 		charge_factor.append('%.2f'%alpha)
 		alpha += 0.05
+	charge_factor.append('0.98')
+	charge_factor.append('0.99')
 	df["α"] = charge_factor
 	collisions = []
 	l_collisions = []
@@ -64,24 +66,34 @@ def insert_test(m):
 		l_collisions.append(l_collision_counter.get_collision())
 		l_collision_counter.reset_counter()
 		l_hash.empty_table()
-	df["OpenHash"] = elapsed
-	df["LinkedHash"] = l_elapsed
-	df["HashCollision"] = collisions
-	df["L_HashCollision"] = l_collisions
+	df['Indirizzamento aperto'] = elapsed
+	df['Concatenamento'] = l_elapsed
+	df['N° Collisioni IA'] = collisions
+	df['N° Collisioni C'] = l_collisions
 	print(df)
-	plt.xlabel("Charging factor α")
-	plt.ylabel("Number of collisions")
+	plt.xlabel("Fattore di caricamento α")
+	plt.ylabel("Numero di collisioni")
 	plt.figure(figsize=(12.80, 7.2))
 	plt.plot(df["α"], collisions, marker="o")
 	plt.plot(df["α"], l_collisions, marker="o")
-	plt.legend(['open hash', 'linked hash'], loc='upper left')
-	plt.title("Collision number")
-	plt.suptitle("OpenHash vs LinkedHash")
+	plt.legend(['indirizzamento aperto', 'concatenamento'], loc='upper left')
+	# plt.title("Collision number")
+	# plt.suptitle("OpenHash vs LinkedHash")
 	namefile = "collision_test_on_" + str(m) + "_table"
 	plt.savefig('figures/' + namefile + ".png")
 	plt.clf()
 	df.to_latex("results/" + namefile + ".tex")
-
+	list_len = len(df['N° Collisioni C'])
+	# avg_insert_time = 1.5269999999985018e-06
+	straight_line_x = [df['N° Collisioni C'][0], df['N° Collisioni C'][list_len-1]]
+	straight_line_y = [df['Concatenamento'][0], df['Concatenamento'][list_len-1]]
+	# straight_line_x = [0, avg_insert_time * m * 0.99]
+	# straight_line_y = [0, avg_insert_time * m * 0.99]
+	plt.xlabel('Numero collisioni')
+	plt.ylabel('Tempo inserimento')
+	plt.plot(df['N° Collisioni C'], df['Concatenamento'], marker="o")
+	plt.plot(straight_line_x, straight_line_y)
+	plt.savefig('tmp/' + namefile + ".png")
 
 '''
 This function generate values for evaluate the insert test
