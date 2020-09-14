@@ -82,7 +82,7 @@ def insert_test(m):
 	namefile = "collision_test_on_" + str(m) + "_table"
 	plt.savefig('figures/' + namefile + ".png")
 	plt.clf()
-	df.to_latex("results/" + namefile + ".tex")
+	df.to_latex("results/" + namefile + ".tex", index=False, column_format='|l|l|l|l|')
 	list_len = len(df['N° Collisioni C'])
 	# avg_insert_time = 1.5269999999985018e-06
 	straight_line_x = [df['N° Collisioni C'][0], df['N° Collisioni C'][list_len-1]]
@@ -93,7 +93,7 @@ def insert_test(m):
 	plt.ylabel('Tempo inserimento')
 	plt.plot(df['N° Collisioni C'], df['Concatenamento'], marker="o")
 	plt.plot(straight_line_x, straight_line_y)
-	plt.savefig('tmp/' + namefile + ".png")
+	plt.savefig('linear/' + namefile + ".png")
 
 '''
 This function generate values for evaluate the insert test
